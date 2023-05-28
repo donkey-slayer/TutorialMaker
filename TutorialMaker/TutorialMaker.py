@@ -161,6 +161,8 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         """
         self.widgetFinder.showFullSize()
         print("Hello, World!")
+        self.ui.currentWidgetName.setText(self.widgetFinder.currentWidgetSelect)
+
 #
 # TutorialMakerLogic
 #
