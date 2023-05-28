@@ -5,9 +5,9 @@ import vtk
 
 import slicer
 import Lib.utils as utils
+from Lib.utils import WidgetFinder
 from slicer.ScriptedLoadableModule import *
 from slicer.util import VTKObservationMixin
-
 
 #
 # TutorialMaker
@@ -56,6 +56,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         self.logic = None
         self._parameterNode = None
         self._updatingGUIFromParameterNode = False
+        self.widgetFinder = WidgetFinder(slicer.util.mainWindow())
 
     def setup(self):
         """
@@ -158,6 +159,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         """
         Run processing when user clicks "Apply" button.
         """
+        self.widgetFinder.showFullSize()
         print("Hello, World!")
 #
 # TutorialMakerLogic
