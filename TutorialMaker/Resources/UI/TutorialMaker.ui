@@ -47,34 +47,18 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <property name="leftMargin">
-      <number>11</number>
+    <widget class="QPushButton" name="SelectedWidget">
+     <property name="text">
+      <string>Selected widget</string>
      </property>
-     <property name="topMargin">
-      <number>11</number>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="AlertText">
+     <property name="text">
+      <string/>
      </property>
-     <property name="rightMargin">
-      <number>11</number>
-     </property>
-     <property name="bottomMargin">
-      <number>11</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="labelCurrentWidget">
-       <property name="text">
-        <string>Current Widget</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="currentWidgetName">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    </widget>
    </item>
    <item>
     <spacer name="verticalSpacer">

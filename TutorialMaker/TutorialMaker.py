@@ -78,6 +78,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
 
         # Buttons
         self.ui.applyButton.connect('clicked(bool)', self.onApplyButton)
+        self.ui.SelectedWidget.connect('clicked(bool)', self.getCurrentWidget)
 
         # Make sure parameter node is initialized (needed for module reload)
         self.initializeParameterNode()
@@ -144,7 +145,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         This method is called whenever parameter node is changed.
         The module GUI is updated to show the current state of the parameter node.
         """
-
+    
         if self._parameterNode is None or self._updatingGUIFromParameterNode:
             return
 
@@ -156,12 +157,15 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         self._updatingGUIFromParameterNode = False
     
     def onApplyButton(self):
-        """
-        Run processing when user clicks "Apply" button.
-        """
         self.widgetFinder.showFullSize()
-        print("Hello, World!")
-        self.ui.currentWidgetName.setText(self.widgetFinder.currentWidgetSelect)
+
+    def getCurrentWidget(self):
+        if self.widgetFinder.currentWidgetSelect == '':
+            self.ui.AlertText.setText("Select an on-screen widget with the tool")
+            return
+        
+        self.ui.AlertText.setText('')
+        print(self.widgetFinder.currentWidgetSelect)
 
 #
 # TutorialMakerLogic
