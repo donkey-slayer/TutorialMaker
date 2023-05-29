@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>TutorialMaker</class>
  <widget class="qMRMLWidget" name="TutorialMaker">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,52 +15,42 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="ctkCollapsibleButton" name="advancedCollapsibleButton">
+    <widget class="ctkCollapsibleButton" name="CollapsibleButton">
      <property name="text">
-      <string>Advanced</string>
+      <string>CollapsibleButton</string>
      </property>
      <property name="collapsed">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
-     <layout class="QFormLayout" name="formLayout_3">
-      <item row="0" column="1">
-       <widget class="QCheckBox" name="invertOutputCheckBox">
-        <property name="toolTip">
-         <string>If checked, values above threshold are set to 0. If unchecked, values below are set to 0.</string>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QPushButton" name="applyButton">
+        <property name="enabled">
+         <bool>true</bool>
         </property>
+        <property name="toolTip">
+         <string>Run the algorithm.</string>
+        </property>
+        <property name="text">
+         <string>Apply</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="SelectedWidget">
+        <property name="text">
+         <string>Selected widget</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="AlertText">
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="applyButton">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="toolTip">
-      <string>Run the algorithm.</string>
-     </property>
-     <property name="text">
-      <string>Apply</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="SelectedWidget">
-     <property name="text">
-      <string>Selected widget</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="AlertText">
-     <property name="text">
-      <string/>
-     </property>
     </widget>
    </item>
    <item>

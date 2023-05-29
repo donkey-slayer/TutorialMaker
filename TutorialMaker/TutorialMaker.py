@@ -2,10 +2,9 @@ import logging
 import os
 
 import vtk
-
 import slicer
 import Lib.utils as utils
-from Lib.utils import WidgetFinder
+from Lib.utils import *
 from slicer.ScriptedLoadableModule import *
 from slicer.util import VTKObservationMixin
 
@@ -57,7 +56,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         self._parameterNode = None
         self._updatingGUIFromParameterNode = False
         self.widgetFinder = WidgetFinder(slicer.util.mainWindow())
-
+        
     def setup(self):
         """
         Called when the user opens the module the first time and the widget is initialized.
@@ -75,6 +74,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         self.logic = TutorialMakerLogic()
 
         # Connections
+        self.widgetFinder.sinalManager.connect(self.ui.SelectedWidget.setText)
 
         # Buttons
         self.ui.applyButton.connect('clicked(bool)', self.onApplyButton)
@@ -161,11 +161,10 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
 
     def getCurrentWidget(self):
         if self.widgetFinder.currentWidgetSelect == '':
-            self.ui.AlertText.setText("Select an on-screen widget with the tool")
+            self.ui.AlertText.setText('Click in "Apply" and select a widget!')
             return
         
-        self.ui.AlertText.setText('')
-        print(self.widgetFinder.currentWidgetSelect)
+        self.ui.AlertText.setText('Copy! (Its not true)')
 
 #
 # TutorialMakerLogic
