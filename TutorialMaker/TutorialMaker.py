@@ -1,6 +1,6 @@
 import logging
 import os
-
+ 
 import vtk
 import slicer
 import Lib.utils as utils
@@ -24,10 +24,7 @@ class TutorialMaker(ScriptedLoadableModule):
         self.parent.dependencies = []  # TODO: add here list of module names that this module requires
         self.parent.contributors = ["Joao Januario (USP)", "Lucas Sanchez (USP)"]  # TODO: replace with "Firstname Lastname (Organization)"
         # TODO: update with short description of the module and a link to online module documentation
-        self.parent.helpText = """
-This is an example of scripted loadable module bundled in an extension.
-See more information in <a href="https://github.com/organization/projectname#TutorialMaker">module documentation</a>.
-"""
+        self.parent.helpText = """help text"""
         # TODO: replace with organization, grant and thanks
         self.parent.acknowledgementText = """
 This file was originally developed by Jean-Christophe Fillion-Robin, Kitware Inc., Andras Lasso, PerkLab,
@@ -74,7 +71,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         self.logic = TutorialMakerLogic()
 
         # Connections
-        self.widgetFinder.sinalManager.connect(self.ui.SelectedWidget.setText)
+        self.widgetFinder.sinalManager.connect(self.updateStatus)
 
         # Buttons
         self.ui.applyButton.connect('clicked(bool)', self.onApplyButton)
@@ -160,11 +157,16 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         self.widgetFinder.showFullSize()
 
     def getCurrentWidget(self):
-        if self.widgetFinder.currentWidgetSelect == '':
+        widget = self.widgetFinder.currentWidgetSelect
+        if widget == '':
             self.ui.AlertText.setText('Click in "Apply" and select a widget!')
             return
         
         self.ui.AlertText.setText('Copy! (Its not true)')
+    
+    def updateStatus(self, msg):
+        self.ui.SelectedWidget.setText(msg)
+        self.ui.AlertText.setText('')
 
 #
 # TutorialMakerLogic
