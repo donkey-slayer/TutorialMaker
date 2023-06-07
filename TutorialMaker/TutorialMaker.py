@@ -75,7 +75,6 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
 
         # Buttons
         self.ui.applyButton.connect('clicked(bool)', self.onApplyButton)
-        self.ui.SelectedWidget.connect('clicked(bool)', self.getCurrentWidget)
 
         # Make sure parameter node is initialized (needed for module reload)
         self.initializeParameterNode()
@@ -164,9 +163,13 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         
         self.ui.AlertText.setText('Copy! (Its not true)')
     
-    def updateStatus(self, msg):
-        self.ui.SelectedWidget.setText(msg)
-        self.ui.AlertText.setText('')
+    def updateStatus(self, widget):
+        widgetData = widget.__dict__()
+        #self.ui.AlertText.setText(str(widget))
+        i = 0
+        for value in widgetData.values():
+            self.ui.tableWidgetData.setItem(i, 0, qt.QTableWidgetItem(str(value)))
+            i = i + 1
 
 #
 # TutorialMakerLogic
