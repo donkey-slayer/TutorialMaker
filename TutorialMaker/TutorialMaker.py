@@ -66,6 +66,18 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         self.layout.addWidget(uiWidget)
         self.ui = slicer.util.childWidgetVariables(uiWidget)
 
+        self.ui.widgetName.setStyleSheet("border: 1px solid black;")
+        self.ui.widgetText.setStyleSheet("border: 1px solid black;")
+        self.ui.widgetToolTip.setStyleSheet("border: 1px solid black;")
+        self.ui.widgetClassName.setStyleSheet("border: 1px solid black;")
+        self.ui.widgetID.setStyleSheet("border: 1px solid black;")
+
+        self.ui.widgetName.setAlignment(qt.Qt.AlignRight | qt.Qt.AlignVCenter)
+        self.ui.widgetText.setAlignment(qt.Qt.AlignRight | qt.Qt.AlignVCenter)
+        self.ui.widgetToolTip.setAlignment(qt.Qt.AlignRight | qt.Qt.AlignVCenter)
+        self.ui.widgetClassName.setAlignment(qt.Qt.AlignRight | qt.Qt.AlignVCenter)
+        self.ui.widgetID.setAlignment(qt.Qt.AlignRight | qt.Qt.AlignVCenter)
+
         # Create logic class. Logic implements all computations that should be possible to run
         # in batch mode, without a graphical user interface.
         self.logic = TutorialMakerLogic()
@@ -166,10 +178,13 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
     def updateStatus(self, widget):
         widgetData = widget.__dict__()
         #self.ui.AlertText.setText(str(widget))
-        i = 0
-        for value in widgetData.values():
-            self.ui.tableWidgetData.setItem(i, 0, qt.QTableWidgetItem(str(value)))
-            i = i + 1
+
+        self.ui.widgetName.setText(widgetData['name'])
+        self.ui.widgetText.setText(widgetData['text'])
+        self.ui.widgetToolTip.setText(widgetData['toolTip'])
+        self.ui.widgetClassName.setText(widgetData['className'])
+        self.ui.widgetID.setText(widgetData['id'])
+        
 
 #
 # TutorialMakerLogic

@@ -21,9 +21,9 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="ctkCollapsibleButton" name="CollapsibleButton">
+    <widget class="ctkCollapsibleButton" name="CollapsibleWidgetFinder">
      <property name="text">
-      <string>CollapsibleButton</string>
+      <string>Widget Finder</string>
      </property>
      <property name="collapsed">
       <bool>false</bool>
@@ -43,9 +43,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="AlertText">
+       <widget class="QLabel" name="LabelTableTitle">
         <property name="text">
-         <string/>
+         <string>Widget</string>
         </property>
        </widget>
       </item>
@@ -123,41 +123,16 @@
         </item>
        </layout>
       </item>
+      <item>
+       <widget class="QTreeWidget" name="WidgetTreeView">
+        <column>
+         <property name="text">
+          <string notr="true">1</string>
+         </property>
+        </column>
+       </widget>
+      </item>
      </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QTableWidget" name="tableWidgetData">
-     <row>
-      <property name="text">
-       <string>New Row</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>name</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>text</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>tooltip</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>id</string>
-      </property>
-     </row>
-     <column>
-      <property name="text">
-       <string>Data</string>
-      </property>
-     </column>
     </widget>
    </item>
    <item>
