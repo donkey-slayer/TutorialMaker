@@ -53,6 +53,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         self._parameterNode = None
         self._updatingGUIFromParameterNode = False
         self.widgetFinder = WidgetFinder(slicer.util.mainWindow())
+        self.widgetPainter = Shapes(slicer.util.mainWindow())
         
     def setup(self):
         """
@@ -166,6 +167,9 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
     
     def onApplyButton(self):
         self.widgetFinder.showFullSize()
+        self.widgetPainter.setTargetWidget(self.widgetFinder.currentWidget)
+        self.widgetPainter.showFullSize()
+
 
     def getCurrentWidget(self):
         widget = self.widgetFinder.currentWidgetSelect
