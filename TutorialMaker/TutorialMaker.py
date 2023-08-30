@@ -85,6 +85,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
 
         # Connections
         self.widgetFinder.sinalManager.connect(self.updateStatus)
+        self.widgetFinder.sinalManager.connect(self.widgetPainter.setTargetWidget)
 
         # Buttons
         self.ui.applyButton.connect('clicked(bool)', self.onApplyButton)
@@ -167,8 +168,6 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
     
     def onApplyButton(self):
         self.widgetFinder.showFullSize()
-        self.widgetPainter.setTargetWidget(self.widgetFinder.currentWidget)
-        self.widgetPainter.showFullSize()
 
 
     def getCurrentWidget(self):
@@ -179,7 +178,8 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         
         self.ui.AlertText.setText('Copy! (Its not true)')
     
-    def updateStatus(self, widget):
+    def updateStatus(self, w):
+        widget = Widget(w)
         widgetData = widget.__dict__()
         #self.ui.AlertText.setText(str(widget))
 
