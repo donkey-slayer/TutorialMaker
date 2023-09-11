@@ -54,6 +54,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         self._updatingGUIFromParameterNode = False
         self.widgetFinder = WidgetFinder(slicer.util.mainWindow())
         self.widgetPainter = Shapes(slicer.util.mainWindow())
+        self.tableSize = 0
         
     def setup(self):
         """
@@ -67,6 +68,9 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         self.layout.addWidget(uiWidget)
         self.ui = slicer.util.childWidgetVariables(uiWidget)
 
+        self.tableInitiliaze()
+
+        #setStyle of widget info table
         self.ui.widgetName.setStyleSheet("border: 1px solid black;")
         self.ui.widgetText.setStyleSheet("border: 1px solid black;")
         self.ui.widgetToolTip.setStyleSheet("border: 1px solid black;")
@@ -89,6 +93,8 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
 
         # Buttons
         self.ui.applyButton.connect('clicked(bool)', self.onApplyButton)
+        self.ui.pushButtonRecord.connect('clicked(bool)', self.onRecordButton)
+        self.ui.pushButtonStop.connect('clicked(bool)', self.onStopButton)
 
         # Make sure parameter node is initialized (needed for module reload)
         self.initializeParameterNode()
@@ -118,57 +124,32 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         """
         Ensure parameter node exists and observed.
         """
-        # Parameter node stores all user choices in parameter values, node selections, etc.
-        # so that when the scene is saved and reloaded, these settings are restored.
+        return
 
-        self.setParameterNode(self.logic.getParameterNode())
-
-        # Select default input nodes if nothing is selected yet to save a few clicks for the user
-        '''if not self._parameterNode.GetNodeReference("InputVolume"):
-            firstVolumeNode = slicer.mrmlScene.GetFirstNodeByClass("vtkMRMLScalarVolumeNode")
-            if firstVolumeNode:
-                self._parameterNode.SetNodeReferenceID("InputVolume", firstVolumeNode.GetID())'''
-    
     def setParameterNode(self, inputParameterNode):
         """
         Set and observe parameter node.
         Observation is needed because when the parameter node is changed then the GUI must be updated immediately.
         """
-
-        if inputParameterNode:
-            self.logic.setDefaultParameters(inputParameterNode)
-
-        # Unobserve previously selected parameter node and add an observer to the newly selected.
-        # Changes of parameter node are observed so that whenever parameters are changed by a script or any other module
-        # those are reflected immediately in the GUI.
-        if self._parameterNode is not None and self.hasObserver(self._parameterNode, vtk.vtkCommand.ModifiedEvent, self.updateGUIFromParameterNode):
-            self.removeObserver(self._parameterNode, vtk.vtkCommand.ModifiedEvent, self.updateGUIFromParameterNode)
-        self._parameterNode = inputParameterNode
-        if self._parameterNode is not None:
-            self.addObserver(self._parameterNode, vtk.vtkCommand.ModifiedEvent, self.updateGUIFromParameterNode)
-
-        # Initial GUI update
-        self.updateGUIFromParameterNode()
+        return
         
     def updateGUIFromParameterNode(self, caller=None, event=None):
         """
         This method is called whenever parameter node is changed.
         The module GUI is updated to show the current state of the parameter node.
         """
-    
-        if self._parameterNode is None or self._updatingGUIFromParameterNode:
-            return
-
-        # Make sure GUI changes do not call updateParameterNodeFromGUI (it could cause infinite loop)
-        self._updatingGUIFromParameterNode = True
-        #Update GUI
-        
-        # All the GUI updates are done
-        self._updatingGUIFromParameterNode = False
+        return
     
     def onApplyButton(self):
         self.widgetFinder.showFullSize()
 
+    def onRecordButton(self):
+        print("Record")
+        return
+
+    def onStopButton(self):
+        print("Stop")
+        return
 
     def getCurrentWidget(self):
         widget = self.widgetFinder.currentWidgetSelect
@@ -181,14 +162,41 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
     def updateStatus(self, w):
         widget = Widget(w)
         widgetData = widget.__dict__()
-        #self.ui.AlertText.setText(str(widget))
+        
+        self.addItemOnTable(widgetData['name'], widgetData['className'], 'Circle')
 
         self.ui.widgetName.setText(widgetData['name'])
         self.ui.widgetText.setText(widgetData['text'])
         self.ui.widgetToolTip.setText(widgetData['toolTip'])
         self.ui.widgetClassName.setText(widgetData['className'])
         self.ui.widgetID.setText(widgetData['id'])
+
+
+    #table func
+    def tableInitiliaze(self):
+        table = self.ui.tableWidget
+
+        table.setColumnCount(3)
+        table.setHorizontalHeaderLabels(['Name', 'Widget', 'Shape'])
+
+    def addItemOnTable(self, name:str, code:str, shape:str):
+        item_name = qt.QTableWidgetItem(name)
+        item_code = qt.QTableWidgetItem(code)
+        item_shape = qt.QTableWidgetItem(shape)
         
+        table = self.ui.tableWidget
+        table.setRowCount(self.tableSize+1)
+        table.setItem(self.tableSize, 0, item_name)
+        table.setItem(self.tableSize, 1, item_code)
+        table.setItem(self.tableSize, 2, item_shape)
+
+        self.tableSize += 1
+
+    def delItemOnTable(self, index:int):
+        #code ...
+        return
+    
+
 
 #
 # TutorialMakerLogic
