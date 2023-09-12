@@ -151,13 +151,15 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
 
     def onRecordButton(self):
         print("Record")
-        self.widgetFinder.showFullSize()
 
+        self.widgetFinder.showFullSize()
+        #self.widgetFinder.raise_()
         return
 
     def onStopButton(self):
         import time
         self.widgetPainter.showFullSize()
+        self.widgetPainter.raise_()
         for widget in self.actionList:
             self.widgetPainter.setTargetWidget(widget.inner())
             time.sleep(0.1)
