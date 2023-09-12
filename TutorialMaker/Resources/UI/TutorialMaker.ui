@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>409</width>
-    <height>317</height>
+    <width>400</width>
+    <height>414</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,6 +26,9 @@
    </size>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetMinAndMaxSize</enum>
+   </property>
    <item>
     <widget class="ctkCollapsibleButton" name="CollapsibleWidgetFinder">
      <property name="sizePolicy">
@@ -38,7 +41,7 @@
       <string>Widget Finder</string>
      </property>
      <property name="collapsed">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="buttonTextAlignment">
       <set>Qt::AlignCenter</set>

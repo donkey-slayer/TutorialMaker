@@ -54,7 +54,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         self._updatingGUIFromParameterNode = False
         self.widgetFinder = WidgetFinder(slicer.util.mainWindow())
         self.widgetPainter = Shapes(slicer.util.mainWindow())
-        self.tableSize = 0
+        self.__tableSize = 0
         
     def setup(self):
         """
@@ -68,7 +68,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         self.layout.addWidget(uiWidget)
         self.ui = slicer.util.childWidgetVariables(uiWidget)
 
-        self.tableInitiliaze()
+        self.__tableInitiliaze()
 
         #setStyle of widget info table
         self.ui.widgetName.setStyleSheet("border: 1px solid black;")
@@ -149,6 +149,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
 
     def onStopButton(self):
         print("Stop")
+        self.delItemOnTable()
         return
 
     def getCurrentWidget(self):
@@ -173,29 +174,33 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
 
 
     #table func
-    def tableInitiliaze(self):
+    def __tableInitiliaze(self):
         table = self.ui.tableWidget
-
         table.setColumnCount(3)
         table.setHorizontalHeaderLabels(['Name', 'Widget', 'Shape'])
 
-    def addItemOnTable(self, name:str, code:str, shape:str):
+    def addItemOnTable(self, name:str='', code:str='', shape:str=''):
         item_name = qt.QTableWidgetItem(name)
         item_code = qt.QTableWidgetItem(code)
         item_shape = qt.QTableWidgetItem(shape)
         
         table = self.ui.tableWidget
-        table.setRowCount(self.tableSize+1)
-        table.setItem(self.tableSize, 0, item_name)
-        table.setItem(self.tableSize, 1, item_code)
-        table.setItem(self.tableSize, 2, item_shape)
+        table.setRowCount(self.__tableSize+1)
+        table.setItem(self.__tableSize, 0, item_name)
+        table.setItem(self.__tableSize, 1, item_code)
+        table.setItem(self.__tableSize, 2, item_shape)
 
-        self.tableSize += 1
+        self.__tableSize += 1
 
-    def delItemOnTable(self, index:int):
-        #code ...
-        return
-    
+    def delItemOnTable(self):
+        print(self.__tableSize)
+        if self.__tableSize == 0:
+            return
+        
+        self.__tableSize -= 1
+        table = self.ui.tableWidget
+        table.setRowCount(self.__tableSize)
+
 
 
 #
