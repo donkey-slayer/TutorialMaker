@@ -55,6 +55,10 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         self.widgetFinder = WidgetFinder(slicer.util.mainWindow())
         self.widgetPainter = Shapes(slicer.util.mainWindow())
         self.tableSize = 0
+
+        #PROTOTYPE FOR PLAYBACK
+
+        self.actionList = []
         
     def setup(self):
         """
@@ -89,7 +93,9 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
 
         # Connections
         self.widgetFinder.sinalManager.connect(self.updateStatus)
-        self.widgetFinder.sinalManager.connect(self.widgetPainter.setTargetWidget)
+
+        # will only draw the circle at playback for now
+        #self.widgetFinder.sinalManager.connect(self.widgetPainter.setTargetWidget)
 
         # Buttons
         self.ui.applyButton.connect('clicked(bool)', self.onApplyButton)
@@ -145,10 +151,22 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
 
     def onRecordButton(self):
         print("Record")
+        self.widgetFinder.showFullSize()
+
         return
 
     def onStopButton(self):
+        import time
+        self.widgetPainter.showFullSize()
+        for widget in self.actionList:
+            self.widgetPainter.setTargetWidget(widget.inner())
+            time.sleep(0.1)
+            self.widgetPainter.repaint()
+            time.sleep(4)
+            
+            #slicer.util.clickAndDrag(widget.inner(), steps=0)
         print("Stop")
+        self.widgetPainter.hideOverlay()
         return
 
     def getCurrentWidget(self):
@@ -164,6 +182,7 @@ class TutorialMakerWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         widgetData = widget.__dict__()
         
         self.addItemOnTable(widgetData['name'], widgetData['className'], 'Circle')
+        self.actionList.append(widget)
 
         self.ui.widgetName.setText(widgetData['name'])
         self.ui.widgetText.setText(widgetData['text'])
